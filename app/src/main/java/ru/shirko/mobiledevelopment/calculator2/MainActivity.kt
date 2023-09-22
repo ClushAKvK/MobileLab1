@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
@@ -12,8 +13,8 @@ class MainActivity : AppCompatActivity() {
     private var rightNumber: Double? = null
     private var tempOperand: Operands? = null
 
-    private lateinit var tvLeftNumber: TextView
-    private lateinit var tvRightNumber: TextView
+    private lateinit var edLeftNumber: EditText
+    private lateinit var edRightNumber: EditText
     private lateinit var tvOperand: TextView
     private lateinit var tvResult: TextView
 
@@ -21,8 +22,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tvLeftNumber = findViewById(R.id.tvLeftNumber)
-        tvRightNumber = findViewById(R.id.tvRightNumber)
+        edLeftNumber = findViewById(R.id.edLeftNumber)
+        edRightNumber = findViewById(R.id.edRightNumber)
         tvOperand = findViewById(R.id.tvOperand)
         tvResult = findViewById(R.id.tvResult)
 
@@ -85,29 +86,34 @@ class MainActivity : AppCompatActivity() {
     private fun inputNumber(digit: Double) {
         if (tempOperand == null) {
             leftNumber = if (leftNumber == null) digit else leftNumber!! * 10 + digit
-            tvLeftNumber.text = "${if (leftNumber!! %1 == 0.0) leftNumber!!.toInt() else leftNumber}"
+            edLeftNumber.setText("${if (leftNumber!! %1 == 0.0) leftNumber!!.toInt() else leftNumber}")
         }
         else {
             rightNumber = if (rightNumber == null) digit else rightNumber!! * 10 + digit
-            tvRightNumber.text = "${rightNumber!!.toInt()}"
+            edRightNumber.setText("${rightNumber!!.toInt()}")
         }
     }
 
     private fun inputOperand(operand: Operands) {
-        tempOperand = operand
-        tvOperand.text = operand.visual
+
         if (rightNumber == null) {
+            tempOperand = operand
+            tvOperand.text = operand.visual
             return
         }
 
         leftNumber = calculateExpression()
-        tvLeftNumber.text = "${if (leftNumber!! %1 == 0.0) leftNumber!!.toInt() else leftNumber}"
+        edLeftNumber.setText("${if (leftNumber!! % 1 == 0.0) leftNumber!!.toInt() else leftNumber}")
+
+        tempOperand = operand
+        tvOperand.text = operand.visual
 
         clearExpression(left=false, operand=false)
     }
 
     private fun calculateExpression():Double {
         var answer: Double = 0.0
+        if (leftNumber == null) leftNumber = 0.0
         if (rightNumber == null) rightNumber = 0.0
         when (tempOperand) {
             Operands.PLUS -> answer = leftNumber!! + rightNumber!!
@@ -124,11 +130,11 @@ class MainActivity : AppCompatActivity() {
                                 result: Boolean = true) {
         if (left) {
             leftNumber = null
-            tvLeftNumber.text = ""
+            edLeftNumber.setText("")
         }
         if (right) {
             rightNumber = null
-            tvRightNumber.text = ""
+            edRightNumber.setText("")
         }
         if (operand) {
             tempOperand = null

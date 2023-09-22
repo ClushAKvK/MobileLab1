@@ -179,46 +179,47 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textIsSelectable="false"
-        app:layout_constraintEnd_toStartOf="@+id/tvRightNumber"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toEndOf="@+id/tvLeftNumber"
-        app:layout_constraintTop_toTopOf="@+id/tvLeftNumber" />
-
-    <TextView
-        android:id="@+id/tvRightNumber"
-        android:layout_width="136dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="16dp"
-        android:autoSizeTextType="uniform"
-        android:background="#FFFFFF"
-        android:textIsSelectable="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvLeftNumber"
-        android:layout_width="136dp"
-        android:layout_height="52dp"
-        android:autoSizeTextType="uniform"
-        android:background="#FFFFFF"
-        android:textIsSelectable="false"
-        app:layout_constraintEnd_toStartOf="@+id/tvRightNumber"
-        app:layout_constraintHorizontal_bias="0.11"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvRightNumber" />
+        app:layout_constraintEnd_toStartOf="@+id/edRightNumber"
+        app:layout_constraintStart_toEndOf="@+id/edLeftNumber"
+        app:layout_constraintTop_toTopOf="@+id/edRightNumber" />
 
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="366dp"
         android:layout_height="58dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="44dp"
         android:autoSizeTextType="uniform"
         android:background="#C0C5BB"
         android:text="Result"
-        app:layout_constraintEnd_toEndOf="@+id/tvRightNumber"
-        app:layout_constraintHorizontal_bias="0.562"
-        app:layout_constraintStart_toStartOf="@+id/tvLeftNumber"
+        app:layout_constraintEnd_toEndOf="@+id/edRightNumber"
+        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintStart_toStartOf="@+id/edLeftNumber"
         app:layout_constraintTop_toBottomOf="@+id/tvOperand" />
+
+    <EditText
+        android:id="@+id/edLeftNumber"
+        android:layout_width="148dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:autoSizeTextType="uniform"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edRightNumber"
+        android:layout_width="148dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:autoSizeTextType="uniform"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edLeftNumber" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
