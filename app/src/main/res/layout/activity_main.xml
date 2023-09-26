@@ -132,7 +132,7 @@
         android:autoSizeTextType="uniform"
         android:backgroundTint="#CC7B34"
         android:text="*"
-        app:layout_constraintEnd_toEndOf="@+id/tvResult"
+        app:layout_constraintEnd_toEndOf="@+id/edResult"
         app:layout_constraintTop_toTopOf="@+id/btnDivide" />
 
     <Button
@@ -162,12 +162,12 @@
         android:id="@+id/btnClear"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:autoSizeTextType="uniform"
         android:backgroundTint="#9E5959"
         android:text="C"
-        app:layout_constraintStart_toStartOf="@+id/tvResult"
-        app:layout_constraintTop_toBottomOf="@+id/tvResult" />
+        app:layout_constraintStart_toStartOf="@+id/edResult"
+        app:layout_constraintTop_toBottomOf="@+id/edResult" />
 
     <TextView
         android:id="@+id/tvOperand"
@@ -183,37 +183,23 @@
         app:layout_constraintStart_toEndOf="@+id/edLeftNumber"
         app:layout_constraintTop_toTopOf="@+id/edRightNumber" />
 
-    <TextView
-        android:id="@+id/tvResult"
-        android:layout_width="366dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="44dp"
-        android:autoSizeTextType="uniform"
-        android:background="#C0C5BB"
-        android:text="Result"
-        app:layout_constraintEnd_toEndOf="@+id/edRightNumber"
-        app:layout_constraintHorizontal_bias="0.222"
-        app:layout_constraintStart_toStartOf="@+id/edLeftNumber"
-        app:layout_constraintTop_toBottomOf="@+id/tvOperand" />
-
     <EditText
         android:id="@+id/edLeftNumber"
-        android:layout_width="148dp"
-        android:layout_height="50dp"
+        android:layout_width="154dp"
+        android:layout_height="62dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
         android:autoSizeTextType="uniform"
         android:ems="10"
         android:inputType="text"
-        android:textSize="28sp"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edRightNumber"
-        android:layout_width="148dp"
-        android:layout_height="50dp"
+        android:layout_width="154dp"
+        android:layout_height="62dp"
         android:layout_marginEnd="16dp"
         android:autoSizeTextType="uniform"
         android:ems="10"
@@ -221,5 +207,19 @@
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edLeftNumber" />
+
+    <EditText
+        android:id="@+id/edResult"
+        android:layout_width="371dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Answer"
+        android:textAlignment="textEnd"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="@+id/edRightNumber"
+        app:layout_constraintStart_toStartOf="@+id/edLeftNumber"
+        app:layout_constraintTop_toBottomOf="@+id/tvOperand" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

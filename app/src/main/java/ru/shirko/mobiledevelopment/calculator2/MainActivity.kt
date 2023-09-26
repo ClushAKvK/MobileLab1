@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var edLeftNumber: EditText
     private lateinit var edRightNumber: EditText
     private lateinit var tvOperand: TextView
-    private lateinit var tvResult: TextView
+    private lateinit var edResult: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         edLeftNumber = findViewById(R.id.edLeftNumber)
         edRightNumber = findViewById(R.id.edRightNumber)
         tvOperand = findViewById(R.id.tvOperand)
-        tvResult = findViewById(R.id.tvResult)
+        edResult = findViewById(R.id.edResult)
 
         val btnDigits: List<View> = listOf(
             findViewById(R.id.btnDigit_0),
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCalculate).setOnClickListener{
             val result = calculateExpression()
 
-            tvResult.text = if (result%1 == 0.0) result.toInt().toString() else result.toString()
+            edResult.setText(if (result%1 == 0.0) result.toInt().toString() else result.toString())
             clearExpression(result=false)
         }
 
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
             tvOperand.text = ""
         }
         if (result) {
-            tvResult.text = ""
+            edResult.setText("")
         }
     }
 
