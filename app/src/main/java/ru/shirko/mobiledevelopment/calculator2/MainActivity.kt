@@ -12,10 +12,11 @@ class MainActivity : AppCompatActivity() {
     private var leftNumber: Double? = null
     private var rightNumber: Double? = null
     private var tempOperand: Operands? = null
+    private var mainResult: Double? = null
 
     private lateinit var edLeftNumber: EditText
     private lateinit var edRightNumber: EditText
-    private lateinit var tvOperand: TextView
+    private lateinit var edOperand: EditText
     private lateinit var edResult: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         edLeftNumber = findViewById(R.id.edLeftNumber)
         edRightNumber = findViewById(R.id.edRightNumber)
-        tvOperand = findViewById(R.id.tvOperand)
+        edOperand = findViewById(R.id.edOperand)
         edResult = findViewById(R.id.edResult)
 
         val btnDigits: List<View> = listOf(
@@ -75,46 +76,82 @@ class MainActivity : AppCompatActivity() {
             clearExpression()
         }
         findViewById<Button>(R.id.btnCalculate).setOnClickListener{
-            val result = calculateExpression()
-
-            edResult.setText(if (result%1 == 0.0) result.toInt().toString() else result.toString())
-            clearExpression(result=false)
+            try {
+                val result = calculateExpression()
+                edResult.setText(if (result%1 == 0.0) result.toInt().toString() else result.toString())
+                clearExpression(result=false)
+            }
+            catch (e: IllegalArgumentException) { }
         }
 
     }
 
     private fun inputNumber(digit: Double) {
         if (tempOperand == null) {
+            edLeftNumber.error = null
             leftNumber = if (leftNumber == null) digit else leftNumber!! * 10 + digit
             edLeftNumber.setText("${if (leftNumber!! %1 == 0.0) leftNumber!!.toInt() else leftNumber}")
         }
         else {
+            edRightNumber.error = null
             rightNumber = if (rightNumber == null) digit else rightNumber!! * 10 + digit
             edRightNumber.setText("${rightNumber!!.toInt()}")
         }
     }
 
     private fun inputOperand(operand: Operands) {
-
-        if (rightNumber == null) {
-            tempOperand = operand
-            tvOperand.text = operand.visual
+        if (leftNumber == null && mainResult == null) {
+            edOperand.error = "Необходимо ввести первое число"
             return
         }
 
-        leftNumber = calculateExpression()
-        edLeftNumber.setText("${if (leftNumber!! % 1 == 0.0) leftNumber!!.toInt() else leftNumber}")
+
+        edOperand.error = null
+        if (rightNumber == null) {
+
+            if (leftNumber == null && mainResult != null) {
+                leftNumber = mainResult
+                edLeftNumber.error = null
+                edLeftNumber.setText("${if (leftNumber!! % 1 == 0.0) leftNumber!!.toInt() else leftNumber}")
+                mainResult = null
+                edResult.setText("")
+            }
+
+            tempOperand = operand
+            edOperand.setText( operand.visual)
+            return
+        }
 
         tempOperand = operand
-        tvOperand.text = operand.visual
+        edOperand.setText( operand.visual)
 
-        clearExpression(left=false, operand=false)
+//        leftNumber = calculateExpression()
+//        edLeftNumber.setText("${if (leftNumber!! % 1 == 0.0) leftNumber!!.toInt() else leftNumber}")
+//
+//        tempOperand = operand
+//        edOperand.setText(operand.visual)
+
+        clearExpression(left=false, operand=false, right=false)
     }
 
     private fun calculateExpression():Double {
         var answer: Double = 0.0
-        if (leftNumber == null) leftNumber = 0.0
-        if (rightNumber == null) rightNumber = 0.0
+        var flag = true
+        if (leftNumber == null) {
+            edLeftNumber.error = "Необходимо ввести число"
+            flag = false
+        }
+        if (rightNumber == null) {
+            edRightNumber.error = "Необходимо ввести число"
+            flag = false
+        }
+        if (tempOperand == null) {
+            edOperand.error = "Необходимо ввести операнд"
+            flag = false
+        }
+        if (!flag)
+            throw IllegalArgumentException("Null pointer excepted")
+
         when (tempOperand) {
             Operands.PLUS -> answer = leftNumber!! + rightNumber!!
             Operands.MINUS -> answer = leftNumber!! - rightNumber!!
@@ -123,24 +160,30 @@ class MainActivity : AppCompatActivity() {
             Operands.MOD -> answer = leftNumber!! % rightNumber!!
             else -> {}
         }
+        mainResult = answer
         return answer
     }
 
     private fun clearExpression(left: Boolean = true, operand: Boolean = true, right: Boolean = true,
                                 result: Boolean = true) {
+
         if (left) {
             leftNumber = null
+            edLeftNumber.error = null
             edLeftNumber.setText("")
         }
         if (right) {
             rightNumber = null
+            edRightNumber.error = null
             edRightNumber.setText("")
         }
         if (operand) {
             tempOperand = null
-            tvOperand.text = ""
+            edOperand.error = null
+            edOperand.setText("")
         }
         if (result) {
+            mainResult = null
             edResult.setText("")
         }
     }
